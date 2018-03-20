@@ -12,15 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Agent_dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Agent_dashboard" />
-        <activity android:name=".Client_reg_main" />
+        <activity android:name=".client.Client_reg_main" />
+        <activity android:name=".appointment.Appointment_dashboard" />
+        <activity android:name=".payments.PayementDashboard" />
+        <activity android:name=".AgentLogin"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package genesip.com.ej.insuarance_agent_mgt_diary;
+package genesip.com.ej.insuarance_agent_mgt_diary.client;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.plus.PlusOneButton;
+
+import genesip.com.ej.insuarance_agent_mgt_diary.R;
 
 /**
  * A fragment with a Google +1 button.
