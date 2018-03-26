@@ -35,7 +35,8 @@ public class AgentRegistration extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        dbConfig = new DbConfig(getApplicationContext());
+        mDatabase = dbConfig.getReadableDatabase();
 
     }
 }
