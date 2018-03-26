@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="genesip.com.ej.insuarance_agent_mgt_diary.Frag_client_reg_policy">
+    tools:context="genesip.com.ej.insuarance_agent_mgt_diary.client.Frag_client_reg_policy">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -153,46 +154,86 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView5"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Due Date"
+                    android:inputType="date" />
+
+                <TextView
+                    android:id="@+id/txtndd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:text="Next Due Date" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Auto select nxt due date" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editText22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:layout_weight="1"
-                android:text="Suffering from any disease or disabilities"
-                android:textSize="18sp" />
+                android:ems="10"
+                android:hint="Next Payment Date"
+                android:inputType="date" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Spinner
-                    android:id="@+id/spinner3"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/button11"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:text="Policy 1" />
 
-                <EditText
-                    android:id="@+id/editText7"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_menu_report_image" />
+
+                <Button
+                    android:id="@+id/button12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:text="Policy 2" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Description"
-                    android:inputType="textPersonName|number" />
-
+                    android:src="@android:drawable/ic_menu_report_image" />
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/editText6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Work Address"
-                android:inputType="textPersonName" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -202,39 +243,6 @@
                 android:layout_weight="1"
                 android:text=" "
                 android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editText11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Mobile"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/editText12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Work"
-                    android:inputType="textPersonName|phone" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/editText14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:ems="10"
-                android:hint="Email"
-                android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/button10"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="genesip.com.ej.insuarance_agent_mgt_diary.client.Client_reg_main">
+    tools:context="genesip.com.ej.insuarance_agent_mgt_diary.appointment.Appointment_dashboard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,13 +29,13 @@
                     android:id="@+id/button2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="General Details" />
+                    android:text="Existing Client" />
 
                 <Button
                     android:id="@+id/button3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Spouse ddetails" />
+                    android:text="Today Appointments " />
             </LinearLayout>
 
             <LinearLayout
@@ -47,13 +47,13 @@
                     android:id="@+id/button8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Children details" />
+                    android:text="Potential Client" />
 
                 <Button
                     android:id="@+id/button9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="policies details" />
+                    android:text="All Appointments" />
             </LinearLayout>
 
         </LinearLayout>
