@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-import genesip.com.ej.insuarance_agent_mgt_diary.db.TableConfig.*;
+//import genesip.com.ej.insuarance_agent_mgt_diary.db.TableConfig.*;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.*;
 
 /**
  * Created by ej on 3/22/2018.
@@ -14,16 +15,23 @@ import genesip.com.ej.insuarance_agent_mgt_diary.db.TableConfig.*;
 
 public class DbConfig extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "AgentDiary_v1";
-    public static final int DB_V = 4;
+    public static final String DB_NAME = "AgentDiary_v2";
+    public static final int DB_V = 3;
+
+    Agent nAgent = new Agent();
+    AppointmentExistCus nAppointmentExistCus = new AppointmentExistCus();
+    AppointmentPotentialCus nAppointmentPotentialCus = new AppointmentPotentialCus();
+    Children nChildren = new Children();
+    Customer nCustomer = new Customer();
+    Policy nPolicy = new Policy();
 
 
-    public static final String SQL_DROP_AGENT = "DROP TABLE IF EXISTS " + Agent.TABLE_NAME;
-    public static final String SQL_DROP_CUSTOMER = "DROP TABLE IF EXISTS " + Customer.TABLE_NAME;
-    public static final String SQL_DROP_CHILDREN = "DROP TABLE IF EXISTS " + Children.TABLE_NAME;
-    public static final String SQL_DROP_POLICY = "DROP TABLE IF EXISTS " + Policy.TABLE_NAME;
-    public static final String SQL_DROP_APP_EXT_CUS = "DROP TABLE IF EXISTS " + AppointmentExistCus.TABLE_NAME;
-    public static final String SQL_DROP_APP_POT_CUS = "DROP TABLE IF EXISTS " + AppointmentPotentialCus.TABLE_NAME;
+    public final String SQL_DROP_AGENT = "DROP TABLE IF EXISTS " + nAgent.getTABLE_NAME();
+    public final String SQL_DROP_APMNT_EXT_CUS = "DROP TABLE IF EXISTS " + nAppointmentExistCus.getTABLE_NAME();
+    public final String SQL_DROP_APMNT_POT_CUS = "DROP TABLE IF EXISTS " + nAppointmentPotentialCus.getTABLE_NAME();
+    public final String SQL_DROP_CHILD = "DROP TABLE IF EXISTS " + nChildren.getTABLE_NAME();
+    public final String SQL_DROP_CUS = "DROP TABLE IF EXISTS " + nCustomer.getTABLE_NAME();
+    public final String SQL_DROP_POLICY = "DROP TABLE IF EXISTS " + nPolicy.getTABLE_NAME();
 
 
     public DbConfig(Context context) {
@@ -32,24 +40,24 @@ public class DbConfig extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Agent.CREATE_TABLE);
-        db.execSQL(Customer.CREATE_TABLE);
-        db.execSQL(Children.CREATE_TABLE);
-        db.execSQL(Policy.CREATE_TABLE);
-        db.execSQL(AppointmentExistCus.CREATE_TABLE);
-        db.execSQL(AppointmentPotentialCus.CREATE_TABLE);
+        db.execSQL(nAgent.getCREATE_TABLE());
+        db.execSQL(nAppointmentExistCus.getCREATE_TABLE());
+        db.execSQL(nAppointmentPotentialCus.getCREATE_TABLE());
+        db.execSQL(nChildren.getCREATE_TABLE());
+        db.execSQL(nCustomer.getCREATE_TABLE());
+        db.execSQL(nPolicy.getCREATE_TABLE());
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion<4){
+        if(oldVersion<3){
             db.execSQL(SQL_DROP_AGENT);
-            db.execSQL(SQL_DROP_CUSTOMER);
-            db.execSQL(SQL_DROP_APP_EXT_CUS);
-            db.execSQL(SQL_DROP_CHILDREN);
+            db.execSQL(SQL_DROP_APMNT_EXT_CUS);
+            db.execSQL(SQL_DROP_APMNT_POT_CUS);
+            db.execSQL(SQL_DROP_CHILD);
+            db.execSQL(SQL_DROP_CUS);
             db.execSQL(SQL_DROP_POLICY);
-            db.execSQL(SQL_DROP_APP_POT_CUS);
             onCreate(db);
         }
 
