@@ -76,7 +76,8 @@
                 android:id="@+id/spinnerRole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:entries="@array/AgentRole" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -91,7 +92,8 @@
                 android:id="@+id/spinnerSecQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:entries="@array/AgentRole" />
 
             <EditText
                 android:id="@+id/etAnswer"
