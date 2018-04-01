@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
 import genesip.com.ej.insuarance_agent_mgt_diary.db.DbConfig;
 import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Agent;
@@ -23,12 +26,21 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = "AGENT REGISTRATION";
     private DbConfig dbConfig;
+    private AgentRegAsync ara;
 
-    private EditText firstName, lastName, username, pass, mobileNo, email, answer ;
+    private EditText firstName, lastName, username, pass, mobileNo, email, answer;
     private Spinner role, secQue;
     private Button reg;
+    private Boolean responseSubmitted;
+
+    private Pattern pattern;
+    private Matcher matcher;
+    private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    private static final String MOBILE_PATTERN = "\\d+";
+
 
     private SQLiteDatabase mDatabase;
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -58,32 +70,91 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
         reg = findViewById(R.id.btnReg);
 
         reg.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case (R.id.btnReg): {
-
-                new AgentRegAsync().execute();
-//                DbActivites obj = DbActivites.getInstance();
-//                obj.showMassge();
-//                Toast.makeText(this, "Woohhhaaaa", Toast.LENGTH_SHORT).show();
+                if (isEm(firstName) || isEm(lastName) || isEm(username) || isEm(pass) || isEm(mobileNo) || isEm(email) || isEm(answer)) {
+                    Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!validLength(username) || !validLength(pass)) {
+                        Toast.makeText(this, "Check username & password", Toast.LENGTH_SHORT).show();
+                        username.setError("Please enter more than 3 characters");
+                        pass.setError("Please enter more than 3 characters");
+                    } else {
+                        if (!validMobile(mobileNo)) {
+                            Toast.makeText(this, "Enter valid mobile number", Toast.LENGTH_SHORT).show();
+                            mobileNo.setError("Please Enter valid mobile No");
+                        } else {
+                            if (!validEmail(email)) {
+                                Toast.makeText(this, "Enter valid Email", Toast.LENGTH_SHORT).show();
+                                email.setError("Please enter valid email");
+                            } else {
+                                if (!checkUsername(username)){
+                                    username.setError("Username is already exist");
+                                }else{
+                                    new AgentRegAsync().execute();
+                                    Toast.makeText(this, "Successfully Registered", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+                }
                 break;
             }
         }
     }
 
-    class AgentRegAsync extends AsyncTask<String, String, String>{
+    private Boolean checkUsername(EditText username){
+        Boolean isAvailabe  = DbActivites.getInstance(getApplicationContext()).usernameCheck(username.getText().toString());
+        Log.d(TAG, "Username Available: "+isAvailabe);
+        return isAvailabe;
+    }
+
+    private boolean isEm(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+
+    public boolean validEmail(EditText email) {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email.getText().toString().trim());
+        return matcher.matches();
+    }
+
+    public boolean validMobile(EditText mobile) {
+        pattern = Pattern.compile(MOBILE_PATTERN);
+        matcher = pattern.matcher(mobile.getText().toString().trim());
+        return matcher.matches();
+    }
+
+    private boolean validLength(EditText editText) {
+        if (editText.getText().toString().trim().length() > 3)
+            return true;
+        return false;
+    }
+
+    private void clearFields() {
+        firstName.setText("");
+        lastName.setText("");
+        username.setText("");
+        pass.setText("");
+        mobileNo.setText("");
+        email.setText("");
+        answer.setText("");
+    }
+
+    class AgentRegAsync extends AsyncTask<String, String, Boolean> {
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
+            clearFields();
         }
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
 
             String firstNameA = firstName.getText().toString();
             String lastNameA = lastName.getText().toString();
@@ -96,8 +167,8 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
             String answerA = answer.getText().toString();
 
             ContentValues values = new ContentValues();
-            Agent agent  = new Agent();
-            DbActivites dbActivites = DbActivites.getInstance();
+            Agent agent = new Agent();
+            DbActivites dbActivites = DbActivites.getInstance(getApplicationContext());
 
             values.put(agent.getC_FIRSTNAME(), firstNameA);
             values.put(agent.getC_LASTNAME(), lastNameA);
@@ -109,12 +180,9 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
             values.put(agent.getC_SEC_QUE(), secQueA);
             values.put(agent.getC_ANSWER(), answerA);
 
-            String response = dbActivites.saveIntoDB(values, getApplicationContext(), "Agent");
-//            Toast.makeText(AgentRegistration.this, response, Toast.LENGTH_SHORT).show();
-            Log.e(TAG,response);
-
-
-            return null;
+            responseSubmitted = dbActivites.saveIntoDB(values, "Agent");
+            Log.d(TAG, "Updated :" + responseSubmitted);
+            return responseSubmitted;
         }
     }
 }
