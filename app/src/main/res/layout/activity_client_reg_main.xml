@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:background="@color/colorSteelBlue"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -26,16 +26,16 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btnGenaralDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="General Details" />
+                    android:text="1. General Details" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnSpouseDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Spouse ddetails" />
+                    android:text="2. Spouse details" />
             </LinearLayout>
 
             <LinearLayout
@@ -44,28 +44,27 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button8"
+                    android:id="@+id/btnChildDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Children details" />
+                    android:text="3. Children details" />
 
                 <Button
-                    android:id="@+id/button9"
+                    android:id="@+id/btnPolicyDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="policies details" />
+                    android:text="4. policies details" />
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:padding="3dp">
 
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

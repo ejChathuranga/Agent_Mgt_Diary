@@ -25,17 +25,6 @@ public class Customer implements BaseColumns {
     private String cContactMobile = "contactMobile";
     private String cContactWork = "contactWork";
     private String cEmail = "email";
-    private String cSpoName = "spoName";
-    private String cSpoNIC= "spoNIC";
-    private String cSpoDOB= "spoDOB";
-    private String cSpoGender= "spoGender";
-    private String cSpoOccupation= "spoOccupation";
-    private String cSpoHeight= "spoHeight";
-    private String cSpoWeight= "spoWeight";
-    private String cSpoAnyDisease= "spoAnyDisease";
-    private String cSpoWorkAddress= "spoWorkAddress";
-    private String cSpoContactNum= "spoContactNum";
-    private String cSpoEmail= "spoEmail";
 
     private String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (\n" +
             "\t" + _ID + "\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -47,25 +36,14 @@ public class Customer implements BaseColumns {
             "\t" + cCivic + "\tTEXT,\n" +
             "\t" + cHeight + "\tTEXT,\n" +
             "\t" + cWeight + "\tTEXT,\n" +
-            "\t" + cAnyDisease + "\tTEXT\n" +
+            "\t" + cAnyDisease + "\tTEXT,\n" +
             "\t" + cOccupation + "\tTEXT,\n" +
             "\t" + cAddress + "\tTEXT,\n" +
             "\t" + cAddressLanLong + "\tTEXT,\n" +
             "\t" + cContactHome + "\tTEXT,\n" +
             "\t" + cContactMobile + "\tTEXT,\n" +
             "\t" + cContactWork + "\tTEXT,\n" +
-            "\t" + cEmail + "\tTEXT,\n" +
-            "\t" + cSpoName + "\tTEXT,\n" +
-            "\t" + cSpoNIC + "\tTEXT\n" +
-            "\t" + cSpoDOB + "\tTEXT,\n" +
-            "\t" + cSpoGender + "\tTEXT\n" +
-            "\t" + cSpoOccupation + "\tTEXT,\n" +
-            "\t" + cSpoHeight + "\tTEXT,\n" +
-            "\t" + cSpoWeight + "\tTEXT,\n" +
-            "\t" + cSpoAnyDisease + "\tTEXT,\n" +
-            "\t" + cSpoWorkAddress + "\tTEXT,\n" +
-            "\t" + cSpoContactNum + "\tTEXT,\n" +
-            "\t" + cSpoEmail + "\tTEXT\n" +
+            "\t" + cEmail + "\tTEXT\n" +
             ");";
 
     public String getTABLE_NAME() {
@@ -136,49 +114,7 @@ public class Customer implements BaseColumns {
         return cEmail;
     }
 
-    public String getcSpoName() {
-        return cSpoName;
-    }
 
-    public String getcSpoNIC() {
-        return cSpoNIC;
-    }
-
-    public String getcSpoDOB() {
-        return cSpoDOB;
-    }
-
-    public String getcSpoGender() {
-        return cSpoGender;
-    }
-
-    public String getcSpoOccupation() {
-        return cSpoOccupation;
-    }
-
-    public String getcSpoHeight() {
-        return cSpoHeight;
-    }
-
-    public String getcSpoWeight() {
-        return cSpoWeight;
-    }
-
-    public String getcSpoAnyDisease() {
-        return cSpoAnyDisease;
-    }
-
-    public String getcSpoWorkAddress() {
-        return cSpoWorkAddress;
-    }
-
-    public String getcSpoContactNum() {
-        return cSpoContactNum;
-    }
-
-    public String getcSpoEmail() {
-        return cSpoEmail;
-    }
 
     public String getCREATE_TABLE() {
         return CREATE_TABLE;

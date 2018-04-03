@@ -1,6 +1,7 @@
 package genesip.com.ej.insuarance_agent_mgt_diary.client;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +30,12 @@ public class Frag_client_reg_child extends Fragment {
     public Frag_client_reg_child() {
         // Required empty public constructor
     }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+
 
     /**
      * Use this factory method to create a new instance of

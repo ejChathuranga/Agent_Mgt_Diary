@@ -19,7 +19,7 @@ public class Policy implements BaseColumns {
     private String cPaymentMood = "paymentMood";
     private String cDueDate = "dueDate";
     private String cNextPaymentDate = "nextPaymentDate";
-    private String cPaymentReminderDate = "paymentReminderDate";
+    private String cPaymentReminderDate = "paymentReminderDate"; // date that reminder need to be activate
     private String cPolicyImage01 = "policyImage01";
     private String cPolicyImage02 = "policyImage02";
 
@@ -33,7 +33,7 @@ public class Policy implements BaseColumns {
             "\t" + cEndDate + "\tTEXT,\n" +
             "\t" + cPremium + "\tTEXT,\n" +
             "\t" + cPaymentMood + "\tTEXT,\n" +
-            "\t" + cDueDate + "\tTEXT\n" +
+            "\t" + cDueDate + "\tTEXT,\n" +
             "\t" + cNextPaymentDate + "\tTEXT,\n" +
             "\t" + cPaymentReminderDate + "\tTEXT,\n" +
             "\t" + cPolicyImage01 + "\tTEXT,\n" +

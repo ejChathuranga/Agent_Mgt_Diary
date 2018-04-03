@@ -92,9 +92,9 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
                                 Toast.makeText(this, "Enter valid Email", Toast.LENGTH_SHORT).show();
                                 email.setError("Please enter valid email");
                             } else {
-                                if (!checkUsername(username)){
+                                if (!checkUsername(username)) {
                                     username.setError("Username is already exist");
-                                }else{
+                                } else {
                                     new AgentRegAsync().execute();
                                     Toast.makeText(this, "Successfully Registered", Toast.LENGTH_SHORT).show();
                                 }
@@ -107,9 +107,9 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private Boolean checkUsername(EditText username){
-        Boolean isAvailabe  = DbActivites.getInstance(getApplicationContext()).usernameCheck(username.getText().toString());
-        Log.d(TAG, "Username Available: "+isAvailabe);
+    private Boolean checkUsername(EditText username) {
+        Boolean isAvailabe = DbActivites.getInstance(getApplicationContext()).usernameCheck(username.getText().toString());
+        Log.d(TAG, "Username Available: " + isAvailabe);
         return isAvailabe;
     }
 
@@ -150,7 +150,11 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            clearFields();
+            if (s) {
+                clearFields();
+            }else{
+                Log.e(TAG, "Error when inserting data into DB");
+            }
         }
 
         @Override

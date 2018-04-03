@@ -16,13 +16,14 @@ import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.*;
 public class DbConfig extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "AgentDiary_v2";
-    public static final int DB_V = 3;
+    public static final int DB_V = 5;
 
     Agent nAgent = new Agent();
     AppointmentExistCus nAppointmentExistCus = new AppointmentExistCus();
     AppointmentPotentialCus nAppointmentPotentialCus = new AppointmentPotentialCus();
     Children nChildren = new Children();
     Customer nCustomer = new Customer();
+    Spouse nSpouse = new Spouse();
     Policy nPolicy = new Policy();
 
 
@@ -31,6 +32,7 @@ public class DbConfig extends SQLiteOpenHelper {
     public final String SQL_DROP_APMNT_POT_CUS = "DROP TABLE IF EXISTS " + nAppointmentPotentialCus.getTABLE_NAME();
     public final String SQL_DROP_CHILD = "DROP TABLE IF EXISTS " + nChildren.getTABLE_NAME();
     public final String SQL_DROP_CUS = "DROP TABLE IF EXISTS " + nCustomer.getTABLE_NAME();
+    public final String SQL_DROP_SPOUSE = "DROP TABLE IF EXISTS " + nSpouse.getTABLE_NAME();
     public final String SQL_DROP_POLICY = "DROP TABLE IF EXISTS " + nPolicy.getTABLE_NAME();
 
 
@@ -45,18 +47,20 @@ public class DbConfig extends SQLiteOpenHelper {
         db.execSQL(nAppointmentPotentialCus.getCREATE_TABLE());
         db.execSQL(nChildren.getCREATE_TABLE());
         db.execSQL(nCustomer.getCREATE_TABLE());
+        db.execSQL(nSpouse.getCREATE_TABLE());
         db.execSQL(nPolicy.getCREATE_TABLE());
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion<3){
+        if(oldVersion<5){
             db.execSQL(SQL_DROP_AGENT);
             db.execSQL(SQL_DROP_APMNT_EXT_CUS);
             db.execSQL(SQL_DROP_APMNT_POT_CUS);
             db.execSQL(SQL_DROP_CHILD);
             db.execSQL(SQL_DROP_CUS);
+            db.execSQL(SQL_DROP_SPOUSE);
             db.execSQL(SQL_DROP_POLICY);
             onCreate(db);
         }

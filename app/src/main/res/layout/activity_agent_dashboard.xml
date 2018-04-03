@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,67 +7,67 @@
     android:layout_margin="5dp"
     tools:context="genesip.com.ej.insuarance_agent_mgt_diary.Agent_dashboard">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/imageView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/e2f0fcbc_c22e_43c8_b0b0_02c003e321b2" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="Date(05/03/2018)"
-            android:textSize="24sp" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:srcCompat="@drawable/e2f0fcbc_c22e_43c8_b0b0_02c003e321b2" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="Hi Saman(Username)"
-            android:textSize="24sp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="Date(05/03/2018)"
+                android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/btnAddNewClient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Add new Client" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="Hi Saman(Username)"
+                android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/btnNewAppointment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Make an Appointment" />
+            <Button
+                android:id="@+id/btnAddNewClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Add new Client" />
 
-        <Button
-            android:id="@+id/btnShowToadyPayment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Payments" />
+            <Button
+                android:id="@+id/btnNewAppointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Make an Appointment" />
 
-        <Button
-            android:id="@+id/btnShowStaticalReport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Statical Report" />
+            <Button
+                android:id="@+id/btnShowStaticalReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Statical Report" />
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Logout" />
+            <Button
+                android:id="@+id/btnShowToadyPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payments" />
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Logout" />
+        </LinearLayout>
+
+</ScrollView>

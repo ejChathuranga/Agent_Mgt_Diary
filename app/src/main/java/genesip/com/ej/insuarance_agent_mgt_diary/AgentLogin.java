@@ -2,6 +2,7 @@ package genesip.com.ej.insuarance_agent_mgt_diary;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
@@ -18,6 +18,10 @@ import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
 public class AgentLogin extends AppCompatActivity  implements View.OnClickListener{
 
     private static final String TAG = "AGENT LOGIN";
+
+    private PreferencesStore pref;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     private EditText username, pass;
     private TextView forgotPass, newAccount;
@@ -28,6 +32,10 @@ public class AgentLogin extends AppCompatActivity  implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_login);
+
+        pref = new PreferencesStore();
+        preferences = getSharedPreferences(pref.getUserPreference(),0);
+        editor = preferences.edit();
 
         regAgennt = findViewById(R.id.btnAgentLogin);
         username = findViewById(R.id.etLoginUsername);
@@ -82,6 +90,8 @@ public class AgentLogin extends AppCompatActivity  implements View.OnClickListen
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if(aBoolean){
+                editor.putString(pref.getUserPref_name(), username.getText().toString());
+                editor.commit();
                 startActivity(new Intent(AgentLogin.this, Agent_dashboard.class));
             }
 
