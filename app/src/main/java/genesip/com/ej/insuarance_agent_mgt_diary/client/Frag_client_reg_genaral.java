@@ -1,129 +1,146 @@
 package genesip.com.ej.insuarance_agent_mgt_diary.client;
 
-import android.content.Context;
+import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
+import android.icu.text.StringPrepParseException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Space;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.plus.PlusOneButton;
+import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.util.Calendar;
+import java.util.Locale;
 
 import genesip.com.ej.insuarance_agent_mgt_diary.R;
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * {@link Frag_client_reg_genaral.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Frag_client_reg_genaral#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Frag_client_reg_genaral extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // The request code must be 0 or greater.
-    private static final int PLUS_ONE_REQUEST_CODE = 0;
-    // The URL to +1.  Must be a valid URL.
-    private final String PLUS_ONE_URL = "http://developer.android.com";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private PlusOneButton mPlusOneButton;
 
-    private OnFragmentInteractionListener mListener;
+public class Frag_client_reg_genaral extends Fragment implements View.OnClickListener {
+
+    private EditText cusName, cusNo, cusNIC, cusDOB, cusHeight, cusWeight, cusDeseaseDiscrip,
+            cusOccupation, cusAddress, cusHomeNo, cusMobileNo, cusWorkNo, cusEmail;
+    private Spinner cusGender, cusCivilStatus, cusWeightScale, cusHeightScale, cusDeseaseOrNot;
+    private Button cusSave;
+    private TextView cusShowAge;
+    private Calendar myCalendar;
+
+    DatePickerDialog.OnDateSetListener dob = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateStartingDate(cusDOB);
+        }
+    };
+
 
     public Frag_client_reg_genaral() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag_client_reg_genaral.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Frag_client_reg_genaral newInstance(String param1, String param2) {
-        Frag_client_reg_genaral fragment = new Frag_client_reg_genaral();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frag_client_reg_genaral, container, false);
-
-        //Find the +1 button
-//        mPlusOneButton = (PlusOneButton) view.findViewById(R.id.plus_one_button);
-
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // Refresh the state of the +1 button each time the activity receives focus.
-        mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
+        myCalendar = Calendar.getInstance();
+
+        cusName = view.findViewById(R.id.etCusName);
+        cusNo = view.findViewById(R.id.etCusNo);
+        cusNIC = view.findViewById(R.id.etCusNIC);
+        cusDOB = view.findViewById(R.id.etCusDOB);
+        cusHeight = view.findViewById(R.id.etCusHeight);
+        cusWeight = view.findViewById(R.id.etCusWeight);
+        cusDeseaseDiscrip = view.findViewById(R.id.etCusDeseaseDescrip);
+        cusOccupation = view.findViewById(R.id.etCusOccupation);
+        cusAddress = view.findViewById(R.id.etCusAddress);
+        cusHomeNo = view.findViewById(R.id.etCusHomeNo);
+        cusMobileNo = view.findViewById(R.id.etCusMobileNo);
+        cusWorkNo = view.findViewById(R.id.etCusWorkNo);
+        cusEmail = view.findViewById(R.id.etCusEmail);
+
+        cusGender = view.findViewById(R.id.spinnerGender);
+        cusCivilStatus = view.findViewById(R.id.spinnerCivilStatus);
+        cusWeightScale = view.findViewById(R.id.spinnerWeightScale);
+        cusHeightScale = view.findViewById(R.id.spinnerHeightScale);
+        cusDeseaseOrNot = view.findViewById(R.id.spinnerDiseaseOrNot);
+
+        cusSave = view.findViewById(R.id.btnCusSave);
+        cusShowAge = view.findViewById(R.id.txtShowAge);
+
+        cusSave.setOnClickListener(this);
+        cusDOB.setOnClickListener(this);
+
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnCusSave: {
+                getAge();
+                Toast.makeText(getContext(), "Hurrerr", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.etCusDOB: {
+                try {
+                    new DatePickerDialog(getContext(), dob, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                } catch (DateTimeException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    private void updateStartingDate(EditText editText) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void getAge() {
+        try {
+            Calendar today = Calendar.getInstance();
+            int birthYear = myCalendar.get(Calendar.YEAR);
+            int nowYear = today.get(Calendar.YEAR);
+            cusShowAge.setText("Age: ~" + (nowYear - birthYear));
+
+        } catch (Exception ex) {
+            Toast.makeText(getContext(), "Couldn't find age !", Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
         }
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 }
