@@ -8,4 +8,16 @@
         <item>Agent</item>
         <item>Manger</item>
     </string-array>
+
+    <string-array name="AgentForgotPassQuestions">
+        <item>What is the last name of your first boyfriend or girlfriend?</item>
+        <item>What was your favorite place to visit as a child?</item>
+        <item>What is the name of your favorite pet?</item>
+        <item>In what city were you born?</item>
+        <item>What is your favorite movie?</item>
+        <item>In what town was your first job?</item>
+        <item>What is your favorite color?</item>
+        <item>What is the name of your first grade teacher?</item>
+        <item>Who is your childhood sports hero?</item>
+    </string-array>
 </resources>
