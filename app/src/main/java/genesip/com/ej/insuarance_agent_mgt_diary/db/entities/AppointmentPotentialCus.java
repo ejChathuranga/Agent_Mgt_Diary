@@ -26,7 +26,7 @@ public class AppointmentPotentialCus implements BaseColumns {
             "\t" + cLocation + "\tTEXT,\n" +
             "\t" + cLocationLanLong + "\tTEXT,\n" +
             "\t" + cRemark + "\tTEXT,\n" +
-            "\t" + cRemider + "\tTEXT\n" +
+            "\t" + cRemider + "\tTEXT,\n" +
             "\t" + cRemiderDate + "\tTEXT\n" +
             ");";
 
