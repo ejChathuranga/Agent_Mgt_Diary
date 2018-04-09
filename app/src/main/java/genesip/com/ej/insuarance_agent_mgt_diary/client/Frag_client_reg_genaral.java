@@ -281,4 +281,109 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
             ex.printStackTrace();
         }
     }
+
+    public class saveClientAsync extends AsyncTask<String, Void, Long> {
+
+        private Boolean isUpdated = false;
+
+        @Override
+        protected void onPostExecute(Long response) {
+            super.onPostExecute(response);
+
+            if (isUpdated) {
+                Log.d(TAG, "Update was success, Updated Row is:" + addedRowId);
+                try {
+                    Frag_client_reg_spouse spouse = new Frag_client_reg_spouse();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainer, spouse);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Log.d(TAG, "Error Occured when : Data was updated and lunch next fragment to add spouse details");
+                }
+            } else {
+                if (response != null) {
+                    Log.d(TAG, "Data was saved, Row id is:" + response);
+                    isSavedCustemrInfo = true;
+
+                    try {
+                        if (cusCivilStatus.getSelectedItem().toString().equals("Single")) {
+                            Frag_client_reg_policy policy = new Frag_client_reg_policy();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentContainer, policy);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        } else {
+                            Frag_client_reg_spouse spouse = new Frag_client_reg_spouse();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentContainer, spouse);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
+
+                    } catch (Exception ex) {
+                    }
+
+                } else {
+                    Log.e(TAG, "Error saving data into db");
+                }
+            }
+
+        }
+
+        @Override
+        protected Long doInBackground(String... strings) {
+            Long rowId = null;
+
+            ContentValues values = new ContentValues();
+            Customer customer = new Customer();
+            DbActivites dbActivites = DbActivites.getInstance(getActivity());
+
+            values.put(customer.getcName(), cusName.getText().toString());
+            values.put(customer.getcCustomerNumber(), cusNo.getText().toString());
+            values.put(customer.getcNIC(), cusNIC.getText().toString());
+            values.put(customer.getcDOB(), cusDOB.getText().toString());
+            values.put(customer.getcGender(), cusGender.getSelectedItem().toString());
+            values.put(customer.getcCivic(), cusCivilStatus.getSelectedItem().toString());
+            values.put(customer.getcHeight(), cusHeight.getText().toString() + cusHeightScale.getSelectedItem().toString());
+            values.put(customer.getcWeight(), cusWeight.getText().toString() + cusWeightScale.getSelectedItem().toString());
+            if (isDisease) {
+                values.put(customer.getcAnyDisease(), cusDiseaseDiscrip.getText().toString());
+            }
+            values.put(customer.getcOccupation(), cusOccupation.getText().toString());
+            values.put(customer.getcAddress(), cusAddress.getText().toString());
+            values.put(customer.getcAddressLanLong(), "88.88888, 100.0000");
+            values.put(customer.getcContactHome(), cusHomeNo.getText().toString());
+            values.put(customer.getcContactMobile(), cusMobileNo.getText().toString());
+            values.put(customer.getcContactWork(), cusWorkNo.getText().toString());
+            values.put(customer.getcEmail(), cusEmail.getText().toString());
+
+            if (isSavedCustemrInfo) {
+                isUpdated = dbActivites.updateIntoDB(values, addedRowId, "CUSTOMER");
+            } else {
+                rowId = dbActivites.saveIntoDB(values, "CUSTOMER");
+                addedRowId = rowId;
+            }
+
+            return rowId;
+        }
+    }
+
+    private void clearFields() {
+        cusName.setText("");
+        cusNo.setText("");
+        cusNIC.setText("");
+        cusDOB.setText("");
+        cusHeight.setText("");
+        cusWeight.setText("");
+        cusDiseaseDiscrip.setText("");
+        cusOccupation.setText("");
+        cusAddress.setText("");
+        cusHomeNo.setText("");
+        cusMobileNo.setText("");
+        cusWorkNo.setText("");
+        cusEmail.setText("");
+    }
 }
