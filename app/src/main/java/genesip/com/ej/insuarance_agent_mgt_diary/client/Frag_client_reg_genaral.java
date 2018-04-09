@@ -1,22 +1,28 @@
 package genesip.com.ej.insuarance_agent_mgt_diary.client;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
-import android.icu.text.StringPrepParseException;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,18 +31,34 @@ import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import genesip.com.ej.insuarance_agent_mgt_diary.R;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Customer;
 
 
 public class Frag_client_reg_genaral extends Fragment implements View.OnClickListener {
 
-    private EditText cusName, cusNo, cusNIC, cusDOB, cusHeight, cusWeight, cusDeseaseDiscrip,
+    private static final String TAG = "CUSTOMER GENERAL";
+
+    private EditText cusName, cusNo, cusNIC, cusDOB, cusHeight, cusWeight, cusDiseaseDiscrip,
             cusOccupation, cusAddress, cusHomeNo, cusMobileNo, cusWorkNo, cusEmail;
-    private Spinner cusGender, cusCivilStatus, cusWeightScale, cusHeightScale, cusDeseaseOrNot;
+    private Spinner cusGender, cusCivilStatus, cusWeightScale, cusHeightScale, cusDiseaseOrNot;
     private Button cusSave;
     private TextView cusShowAge;
     private Calendar myCalendar;
+    private Boolean isDisease, isSavedCustemrInfo;
+
+    private Pattern pattern;
+    private Matcher matcher;
+    private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+
+    FragmentManager fragmentManager;
+
+    Long addedRowId = null;
 
     DatePickerDialog.OnDateSetListener dob = new DatePickerDialog.OnDateSetListener() {
         @Override
