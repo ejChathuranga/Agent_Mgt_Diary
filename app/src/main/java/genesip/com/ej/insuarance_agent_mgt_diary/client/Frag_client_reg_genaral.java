@@ -201,12 +201,15 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Button btnSpouse = (Button)getActivity().findViewById(R.id.btnSpouseDetails);
                 Button btnChild = (Button)getActivity().findViewById(R.id.btnChildDetails);
+                Button btnPolicy = (Button)getActivity().findViewById(R.id.btnPolicyDetails);
                 if(position==1){
                     btnSpouse.setVisibility(View.GONE);
                     btnChild.setVisibility(View.GONE);
+                    btnPolicy.setText("2. Policies Details");
                 }else{
                     btnChild.setVisibility(View.VISIBLE);
                     btnSpouse.setVisibility(View.VISIBLE);
+                    btnPolicy.setText("4. Policies Details");
                 }
             }
 
