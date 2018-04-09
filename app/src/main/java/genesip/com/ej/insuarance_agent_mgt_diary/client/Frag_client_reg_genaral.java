@@ -72,6 +72,10 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         super.onViewCreated(view, savedInstanceState);
 
         myCalendar = Calendar.getInstance();
+        isDisease = false;
+        isSavedCustemrInfo = false;
+
+        fragmentManager = getFragmentManager();
 
         cusName = view.findViewById(R.id.etCusName);
         cusNo = view.findViewById(R.id.etCusNo);
@@ -79,7 +83,7 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusDOB = view.findViewById(R.id.etCusDOB);
         cusHeight = view.findViewById(R.id.etCusHeight);
         cusWeight = view.findViewById(R.id.etCusWeight);
-        cusDeseaseDiscrip = view.findViewById(R.id.etCusDeseaseDescrip);
+        cusDiseaseDiscrip = view.findViewById(R.id.etCusDeseaseDescrip);
         cusOccupation = view.findViewById(R.id.etCusOccupation);
         cusAddress = view.findViewById(R.id.etCusAddress);
         cusHomeNo = view.findViewById(R.id.etCusHomeNo);
@@ -91,7 +95,7 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusCivilStatus = view.findViewById(R.id.spinnerCivilStatus);
         cusWeightScale = view.findViewById(R.id.spinnerWeightScale);
         cusHeightScale = view.findViewById(R.id.spinnerHeightScale);
-        cusDeseaseOrNot = view.findViewById(R.id.spinnerDiseaseOrNot);
+        cusDiseaseOrNot = view.findViewById(R.id.spinnerDiseaseOrNot);
 
         cusSave = view.findViewById(R.id.btnCusSave);
         cusShowAge = view.findViewById(R.id.txtShowAge);
@@ -100,6 +104,95 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusDOB.setOnClickListener(this);
 
 
+        cusDOB.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                getAge();
+
+            }
+        });
+
+        cusCivilStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case 1: {
+                        Toast.makeText(getActivity(), "Please fill only General & Policy details", Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 2: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case 3: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cusDiseaseOrNot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        cusDiseaseDiscrip.setVisibility(View.INVISIBLE);
+                        isDisease = false;
+                        break;
+                    }
+                    case 1: {
+                        cusDiseaseDiscrip.setVisibility(View.VISIBLE);
+                        isDisease = true;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cusCivilStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Button btnSpouse = (Button)getActivity().findViewById(R.id.btnSpouseDetails);
+                Button btnChild = (Button)getActivity().findViewById(R.id.btnChildDetails);
+                if(position==1){
+                    btnSpouse.setVisibility(View.GONE);
+                    btnChild.setVisibility(View.GONE);
+                }else{
+                    btnChild.setVisibility(View.VISIBLE);
+                    btnSpouse.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
