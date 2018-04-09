@@ -201,8 +201,43 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnCusSave: {
-                getAge();
-                Toast.makeText(getContext(), "Hurrerr", Toast.LENGTH_SHORT).show();
+                if (isSavedCustemrInfo) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Entry Update Confirmation");
+                    dialog.setMessage("Are you sure you want to update current entry?");
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new saveClientAsync().execute();
+                        }
+                    });
+                    dialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+
+                } else {
+                    if (isEm(cusName) || isEm(cusNo) || isEm(cusNIC)) {
+                        Toast.makeText(getContext(), "Please fill mandatory fields ", Toast.LENGTH_SHORT).show();
+                        cusName.setError("");
+                        cusNo.setError("");
+                        cusNIC.setError("");
+                    } else {
+                        if (isEm(cusEmail)) {
+                            new saveClientAsync().execute();
+                        } else {
+                            if (!validEmail(cusEmail)) {
+                                cusEmail.setError("Please provide valid email");
+                            } else {
+                                new saveClientAsync().execute();
+                            }
+                        }
+                    }
+                }
+
                 break;
             }
             case R.id.etCusDOB: {
