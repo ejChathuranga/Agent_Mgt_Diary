@@ -253,10 +253,20 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         }
     }
 
+    private boolean isEm(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+
     private void updateStartingDate(EditText editText) {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public boolean validEmail(EditText email) {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email.getText().toString().trim());
+        return matcher.matches();
     }
 
     private void getAge() {
