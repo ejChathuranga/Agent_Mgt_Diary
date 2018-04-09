@@ -6,18 +6,45 @@
 
     <string-array name="AgentRole">
         <item>Agent</item>
-        <item>Manger</item>
     </string-array>
 
+    <string-array name="CustomerGender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="CustomerHeightScale">
+        <item>cm</item>
+        <item>ft</item>
+    </string-array>
+
+    <string-array name="CustomerWeightScale">
+        <item>Kg</item>
+        <item>Lb</item>
+    </string-array>
+
+    <string-array name="CustomerIsDisease">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
+
+    <string-array name="CustomerCivicStatus">
+        <item>Married</item>
+        <item>Single</item>
+        <item>Divorced</item>
+        <item>Widowed</item>
+    </string-array>
+
+
     <string-array name="AgentForgotPassQuestions">
-        <item>What is the last name of your first boyfriend or girlfriend?</item>
-        <item>What was your favorite place to visit as a child?</item>
-        <item>What is the name of your favorite pet?</item>
-        <item>In what city were you born?</item>
-        <item>What is your favorite movie?</item>
-        <item>In what town was your first job?</item>
-        <item>What is your favorite color?</item>
-        <item>What is the name of your first grade teacher?</item>
-        <item>Who is your childhood sports hero?</item>
+        <item>1.What is the last name of your first boyfriend or girlfriend?</item>
+        <item>2.What was your favorite place to visit as a child?</item>
+        <item>3.What is the name of your favorite pet?</item>
+        <item>4.In what city were you born?</item>
+        <item>5.What is your favorite movie?</item>
+        <item>6.In what town was your first job?</item>
+        <item>7.What is your favorite color?</item>
+        <item>8.What is the name of your first grade teacher?</item>
+        <item>9.Who is your childhood sports hero?</item>
     </string-array>
 </resources>
