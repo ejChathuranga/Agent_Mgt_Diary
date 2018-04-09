@@ -18,12 +18,15 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
-        <activity android:name=".client.Client_reg_main" ></activity>
+            </intent-filter>
+        </activity>
+        <activity android:name=".client.Client_reg_main"></activity>
         <activity android:name=".appointment.Appointment_dashboard" />
         <activity android:name=".payments.PayementDashboard" />
-        <activity android:name=".AgentLogin" ></activity>
-        <activity android:name=".AgentRegistration"></activity>
+        <activity android:name=".AgentLogin"></activity>
+        <activity android:name=".AgentRegistration">
+
+        </activity>
     </application>
 
 </manifest>
