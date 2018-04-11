@@ -3,6 +3,7 @@ package genesip.com.ej.insuarance_agent_mgt_diary.client;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,6 +35,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import genesip.com.ej.insuarance_agent_mgt_diary.PreferencesStore;
 import genesip.com.ej.insuarance_agent_mgt_diary.R;
 import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
 import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Customer;
@@ -54,6 +56,11 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
     private Pattern pattern;
     private Matcher matcher;
     private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+    // for the preferences
+    private PreferencesStore prefStore;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
 
     FragmentManager fragmentManager;
@@ -92,6 +99,12 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        prefStore = new PreferencesStore();
+        preferences = getActivity().getSharedPreferences(prefStore.getCusRegPreference(), 0);
+        editor = preferences.edit();
+        editor.putBoolean(prefStore.getIsCustomerAdded(), false);
+        editor.commit();
 
         myCalendar = Calendar.getInstance();
         isDisease = false;
@@ -316,22 +329,24 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
             super.onPostExecute(response);
 
             if (isUpdated) {
-                Log.d(TAG, "Update was success, Updated Row is:" + addedRowId);
-                try {
-                    Frag_client_reg_spouse spouse = new Frag_client_reg_spouse();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, spouse);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    Log.d(TAG, "Error Occured when : Data was updated and lunch next fragment to add spouse details");
-                }
+                        Toast.makeText(getActivity(), "Updated...!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             } else {
                 if (response != null) {
                     Log.d(TAG, "Data was saved, Row id is:" + response);
                     isSavedCustemrInfo = true;
+
+                    editor.putBoolean(prefStore.getIsCustomerAdded(), true);
+                    editor.putString(prefStore.getCusNo(), cusNo.getText().toString());
+                    editor.putLong(prefStore.getNewCusAddedRow(), response);
+
+                    editor.commit();
 
                     try {
                         if (cusCivilStatus.getSelectedItem().toString().equals("Single")) {
@@ -385,8 +400,10 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
             values.put(customer.getcContactWork(), cusWorkNo.getText().toString());
             values.put(customer.getcEmail(), cusEmail.getText().toString());
 
-            if (isSavedCustemrInfo) {
-                isUpdated = dbActivites.updateIntoDB(values, addedRowId, "CUSTOMER");
+
+
+            if (preferences.getBoolean(prefStore.getIsCustomerAdded(), false)) {
+                isUpdated = dbActivites.updateIntoDB(values, preferences.getLong(prefStore.getNewCusAddedRow(),0), "CUSTOMER");
             } else {
                 rowId = dbActivites.saveIntoDB(values, "CUSTOMER");
                 addedRowId = rowId;
