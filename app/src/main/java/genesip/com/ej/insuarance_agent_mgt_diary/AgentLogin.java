@@ -52,17 +52,8 @@ public class AgentLogin extends AppCompatActivity  implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAgentLogin:{
-                if(isEm(username) || isEm(pass)){
-                    username.setError("Please enter username");
-                    pass.setError("Please enter username");
-                }else {
-                    if (!validLength(username) || !validLength(pass)){
-                        username.setError("Please enter valid username");
-                        pass.setError("Please enter valid username");
-                    }else{
-                        new LoginAsync().execute();
-                    }
-                }
+//                new LoginAsync().execute();
+                startActivity(new Intent(AgentLogin.this, Agent_dashboard.class));
                 break;
             }case R.id.txtForgot:{
                 break;
