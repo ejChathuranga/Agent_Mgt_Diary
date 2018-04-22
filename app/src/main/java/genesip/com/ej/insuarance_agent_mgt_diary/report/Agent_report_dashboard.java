@@ -3,6 +3,8 @@ package genesip.com.ej.insuarance_agent_mgt_diary.report;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import genesip.com.ej.insuarance_agent_mgt_diary.R;
+
 public class Agent_report_dashboard extends AppCompatActivity {
 
     @Override

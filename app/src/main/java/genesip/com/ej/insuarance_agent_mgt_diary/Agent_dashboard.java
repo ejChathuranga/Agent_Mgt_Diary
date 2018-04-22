@@ -12,6 +12,7 @@ import android.widget.Toast;
 import genesip.com.ej.insuarance_agent_mgt_diary.appointment.Appointment_dashboard;
 import genesip.com.ej.insuarance_agent_mgt_diary.client.Client_reg_main;
 import genesip.com.ej.insuarance_agent_mgt_diary.payments.PayementDashboard;
+import genesip.com.ej.insuarance_agent_mgt_diary.report.Agent_report_dashboard;
 
 public class Agent_dashboard extends AppCompatActivity implements OnClickListener {
     private PreferencesStore prefStore;
@@ -60,7 +61,7 @@ public class Agent_dashboard extends AppCompatActivity implements OnClickListene
                 break;
             }
             case R.id.btnShowStaticalReport: {
-                startActivity(new Intent(Agent_dashboard.this, Client_reg_main.class));
+                startActivity(new Intent(Agent_dashboard.this, Agent_report_dashboard.class));
                 break;
             }
 
