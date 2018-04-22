@@ -31,7 +31,7 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
     private EditText firstName, lastName, username, pass, mobileNo, email, answer;
     private Spinner role, secQue;
     private Button reg;
-    private Boolean responseSubmitted;
+    private Long responseSubmitted;
 
     private Pattern pattern;
     private Matcher matcher;
@@ -145,12 +145,12 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
         answer.setText("");
     }
 
-    class AgentRegAsync extends AsyncTask<String, String, Boolean> {
+    class AgentRegAsync extends AsyncTask<String, String, Long> {
 
         @Override
-        protected void onPostExecute(Boolean s) {
+        protected void onPostExecute(Long s) {
             super.onPostExecute(s);
-            if (s) {
+            if (s!=null) {
                 clearFields();
             }else{
                 Log.e(TAG, "Error when inserting data into DB");
@@ -158,7 +158,7 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Long doInBackground(String... strings) {
 
             String firstNameA = firstName.getText().toString();
             String lastNameA = lastName.getText().toString();
@@ -184,8 +184,8 @@ public class AgentRegistration extends AppCompatActivity implements View.OnClick
             values.put(agent.getC_SEC_QUE(), secQueA);
             values.put(agent.getC_ANSWER(), answerA);
 
-            responseSubmitted = dbActivites.saveIntoDB(values, "Agent");
-            Log.d(TAG, "Updated :" + responseSubmitted);
+            responseSubmitted = dbActivites.saveIntoDB(values, "AGENT");
+            Log.d(TAG, "Updated row :" + responseSubmitted);
             return responseSubmitted;
         }
     }

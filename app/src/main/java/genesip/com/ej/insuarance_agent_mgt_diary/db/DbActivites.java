@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Agent;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Customer;
 
 /**
  * Created by ej on 3/28/2018.
@@ -17,29 +18,56 @@ public class DbActivites {
     private static DbActivites instance = new DbActivites();
     static DbConfig dbHelp;
 
-    private DbActivites() {}
+    private DbActivites() {
+    }
 
     public static DbActivites getInstance(Context context) {
         dbHelp = new DbConfig(context);
         return instance;
     }
 
-    public Boolean saveIntoDB(ContentValues values, String to) {
+    public Long saveIntoDB(ContentValues values, String to) {
         SQLiteDatabase db = dbHelp.getWritableDatabase();
 
         try {
-            if (to.equals("Agent")) {
-                Agent agent = new Agent();
-                Long response = db.insert(agent.getTABLE_NAME(), null, values);
-                if (response != -1) {
-                    return true;
-                } else
-                    return false;
+
+            switch (to) {
+                case ("AGENT"): {
+                    Agent agent = new Agent();
+                    Long rowId = db.insert(agent.getTABLE_NAME(), null, values);
+                    db.close();
+                    return rowId;
+                }
+                case ("CUSTOMER"):{
+                    Customer customer = new Customer();
+                    Long rowId = db.insert(customer.getTABLE_NAME(), null, values);
+                    db.close();
+                    return rowId;
+                }
             }
-        } catch (SQLiteException ex) {
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return null;
+    }
+
+    public Boolean updateIntoDB(ContentValues values, Long id, String to){
+        SQLiteDatabase db = dbHelp.getWritableDatabase();
+        switch (to){
+            case ("CUSTOMER"):{
+                Customer customer = new Customer();
+                int rowId = db.update(customer.getTABLE_NAME(), values, "_id="+id,null);
+                return returns(rowId);
+            }
+        }
+
         return false;
+    }
+
+    private Boolean returns(int aLong){
+        if(aLong != -1) return true;
+        else return false;
     }
 
     public Boolean loginCheck(String un, String pw) {
@@ -74,10 +102,10 @@ public class DbActivites {
             if (cursor.moveToFirst()) {
                 do {
                     if (cursor.getString(0).equals(un)) {
-                            return false;
+                        return false;
                     }
                 } while (cursor.moveToNext());
-            }else {
+            } else {
                 return true;
             }
         } catch (Exception ex) {
