@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:background="@color/colorSteelBlue"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -26,13 +27,13 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btnExistCus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Existing Client" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnTodayAppintments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Today Appointments " />
@@ -44,13 +45,13 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button8"
+                    android:id="@+id/btnPotentilCus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Potential Client" />
 
                 <Button
-                    android:id="@+id/button9"
+                    android:id="@+id/btnAllAppointments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="All Appointments" />
