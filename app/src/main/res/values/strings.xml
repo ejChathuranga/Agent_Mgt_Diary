@@ -35,6 +35,12 @@
         <item>Widowed</item>
     </string-array>
 
+    <string-array name="ExtAppointmentReminder">
+        <item>1 Day</item>
+        <item>2 Day</item>
+        <item>3 Day</item>
+    </string-array>
+
 
     <string-array name="AgentForgotPassQuestions">
         <item>1.What is the last name of your first boyfriend or girlfriend?</item>
