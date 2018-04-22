@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Agent_Mgt_Diary.iml" filepath="$PROJECT_DIR$/Agent_Mgt_Diary.iml" />
-      <module fileurl="file://E:\Android_projects_3\GitKracken_Agent_Diary\Agent_Mgt_Diary\Insuarance_Agent_Mgt_Diary.iml" filepath="E:\Android_projects_3\GitKracken_Agent_Diary\Agent_Mgt_Diary\Insuarance_Agent_Mgt_Diary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Insuarance_Agent_Mgt_Diary.iml" filepath="$PROJECT_DIR$/Insuarance_Agent_Mgt_Diary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
