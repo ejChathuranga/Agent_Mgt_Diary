@@ -52,7 +52,7 @@ public class Appointment_dashboard extends AppCompatActivity implements View.OnC
                 try {
                     ExistingClientAppointment_frag genaral = new ExistingClientAppointment_frag();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, genaral);
+                    fragmentTransaction.replace(R.id.fragContainerAppointment, genaral);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
@@ -67,7 +67,7 @@ public class Appointment_dashboard extends AppCompatActivity implements View.OnC
                 try {
                     PotentialClientAppointment_frag spouse = new PotentialClientAppointment_frag();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, spouse);
+                    fragmentTransaction.replace(R.id.fragContainerAppointment, spouse);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
@@ -83,7 +83,7 @@ public class Appointment_dashboard extends AppCompatActivity implements View.OnC
 
                     TodayAppointments_frag child = new TodayAppointments_frag();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, child);
+                    fragmentTransaction.replace(R.id.fragContainerAppointment, child);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class Appointment_dashboard extends AppCompatActivity implements View.OnC
 
                     AllAppointments_frag policy = new AllAppointments_frag();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, policy);
+                    fragmentTransaction.replace(R.id.fragContainerAppointment, policy);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
