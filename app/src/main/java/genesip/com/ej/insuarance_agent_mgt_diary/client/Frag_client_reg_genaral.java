@@ -1,22 +1,28 @@
 package genesip.com.ej.insuarance_agent_mgt_diary.client;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
-import android.icu.text.StringPrepParseException;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,18 +31,34 @@ import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import genesip.com.ej.insuarance_agent_mgt_diary.R;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.DbActivites;
+import genesip.com.ej.insuarance_agent_mgt_diary.db.entities.Customer;
 
 
 public class Frag_client_reg_genaral extends Fragment implements View.OnClickListener {
 
-    private EditText cusName, cusNo, cusNIC, cusDOB, cusHeight, cusWeight, cusDeseaseDiscrip,
+    private static final String TAG = "CUSTOMER GENERAL";
+
+    private EditText cusName, cusNo, cusNIC, cusDOB, cusHeight, cusWeight, cusDiseaseDiscrip,
             cusOccupation, cusAddress, cusHomeNo, cusMobileNo, cusWorkNo, cusEmail;
-    private Spinner cusGender, cusCivilStatus, cusWeightScale, cusHeightScale, cusDeseaseOrNot;
+    private Spinner cusGender, cusCivilStatus, cusWeightScale, cusHeightScale, cusDiseaseOrNot;
     private Button cusSave;
     private TextView cusShowAge;
     private Calendar myCalendar;
+    private Boolean isDisease, isSavedCustemrInfo;
+
+    private Pattern pattern;
+    private Matcher matcher;
+    private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+
+    FragmentManager fragmentManager;
+
+    Long addedRowId = null;
 
     DatePickerDialog.OnDateSetListener dob = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -72,6 +94,10 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         super.onViewCreated(view, savedInstanceState);
 
         myCalendar = Calendar.getInstance();
+        isDisease = false;
+        isSavedCustemrInfo = false;
+
+        fragmentManager = getFragmentManager();
 
         cusName = view.findViewById(R.id.etCusName);
         cusNo = view.findViewById(R.id.etCusNo);
@@ -79,7 +105,7 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusDOB = view.findViewById(R.id.etCusDOB);
         cusHeight = view.findViewById(R.id.etCusHeight);
         cusWeight = view.findViewById(R.id.etCusWeight);
-        cusDeseaseDiscrip = view.findViewById(R.id.etCusDeseaseDescrip);
+        cusDiseaseDiscrip = view.findViewById(R.id.etCusDeseaseDescrip);
         cusOccupation = view.findViewById(R.id.etCusOccupation);
         cusAddress = view.findViewById(R.id.etCusAddress);
         cusHomeNo = view.findViewById(R.id.etCusHomeNo);
@@ -91,7 +117,7 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusCivilStatus = view.findViewById(R.id.spinnerCivilStatus);
         cusWeightScale = view.findViewById(R.id.spinnerWeightScale);
         cusHeightScale = view.findViewById(R.id.spinnerHeightScale);
-        cusDeseaseOrNot = view.findViewById(R.id.spinnerDiseaseOrNot);
+        cusDiseaseOrNot = view.findViewById(R.id.spinnerDiseaseOrNot);
 
         cusSave = view.findViewById(R.id.btnCusSave);
         cusShowAge = view.findViewById(R.id.txtShowAge);
@@ -100,6 +126,98 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         cusDOB.setOnClickListener(this);
 
 
+        cusDOB.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                getAge();
+
+            }
+        });
+
+        cusCivilStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case 1: {
+                        Toast.makeText(getActivity(), "Please fill only General & Policy details", Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 2: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case 3: {
+                        Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cusDiseaseOrNot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        cusDiseaseDiscrip.setVisibility(View.INVISIBLE);
+                        isDisease = false;
+                        break;
+                    }
+                    case 1: {
+                        cusDiseaseDiscrip.setVisibility(View.VISIBLE);
+                        isDisease = true;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cusCivilStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Button btnSpouse = (Button)getActivity().findViewById(R.id.btnSpouseDetails);
+                Button btnChild = (Button)getActivity().findViewById(R.id.btnChildDetails);
+                Button btnPolicy = (Button)getActivity().findViewById(R.id.btnPolicyDetails);
+                if(position==1){
+                    btnSpouse.setVisibility(View.GONE);
+                    btnChild.setVisibility(View.GONE);
+                    btnPolicy.setText("2. Policies Details");
+                }else{
+                    btnChild.setVisibility(View.VISIBLE);
+                    btnSpouse.setVisibility(View.VISIBLE);
+                    btnPolicy.setText("4. Policies Details");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -108,8 +226,43 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnCusSave: {
-                getAge();
-                Toast.makeText(getContext(), "Hurrerr", Toast.LENGTH_SHORT).show();
+                if (isSavedCustemrInfo) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Entry Update Confirmation");
+                    dialog.setMessage("Are you sure you want to update current entry?");
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new saveClientAsync().execute();
+                        }
+                    });
+                    dialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+
+                } else {
+                    if (isEm(cusName) || isEm(cusNo) || isEm(cusNIC)) {
+                        Toast.makeText(getContext(), "Please fill mandatory fields ", Toast.LENGTH_SHORT).show();
+                        cusName.setError("");
+                        cusNo.setError("");
+                        cusNIC.setError("");
+                    } else {
+                        if (isEm(cusEmail)) {
+                            new saveClientAsync().execute();
+                        } else {
+                            if (!validEmail(cusEmail)) {
+                                cusEmail.setError("Please provide valid email");
+                            } else {
+                                new saveClientAsync().execute();
+                            }
+                        }
+                    }
+                }
+
                 break;
             }
             case R.id.etCusDOB: {
@@ -125,10 +278,20 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
         }
     }
 
+    private boolean isEm(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+
     private void updateStartingDate(EditText editText) {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public boolean validEmail(EditText email) {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email.getText().toString().trim());
+        return matcher.matches();
     }
 
     private void getAge() {
@@ -142,5 +305,110 @@ public class Frag_client_reg_genaral extends Fragment implements View.OnClickLis
             Toast.makeText(getContext(), "Couldn't find age !", Toast.LENGTH_SHORT).show();
             ex.printStackTrace();
         }
+    }
+
+    public class saveClientAsync extends AsyncTask<String, Void, Long> {
+
+        private Boolean isUpdated = false;
+
+        @Override
+        protected void onPostExecute(Long response) {
+            super.onPostExecute(response);
+
+            if (isUpdated) {
+                Log.d(TAG, "Update was success, Updated Row is:" + addedRowId);
+                try {
+                    Frag_client_reg_spouse spouse = new Frag_client_reg_spouse();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainer, spouse);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Log.d(TAG, "Error Occured when : Data was updated and lunch next fragment to add spouse details");
+                }
+            } else {
+                if (response != null) {
+                    Log.d(TAG, "Data was saved, Row id is:" + response);
+                    isSavedCustemrInfo = true;
+
+                    try {
+                        if (cusCivilStatus.getSelectedItem().toString().equals("Single")) {
+                            Frag_client_reg_policy policy = new Frag_client_reg_policy();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentContainer, policy);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        } else {
+                            Frag_client_reg_spouse spouse = new Frag_client_reg_spouse();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentContainer, spouse);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
+
+                    } catch (Exception ex) {
+                    }
+
+                } else {
+                    Log.e(TAG, "Error saving data into db");
+                }
+            }
+
+        }
+
+        @Override
+        protected Long doInBackground(String... strings) {
+            Long rowId = null;
+
+            ContentValues values = new ContentValues();
+            Customer customer = new Customer();
+            DbActivites dbActivites = DbActivites.getInstance(getActivity());
+
+            values.put(customer.getcName(), cusName.getText().toString());
+            values.put(customer.getcCustomerNumber(), cusNo.getText().toString());
+            values.put(customer.getcNIC(), cusNIC.getText().toString());
+            values.put(customer.getcDOB(), cusDOB.getText().toString());
+            values.put(customer.getcGender(), cusGender.getSelectedItem().toString());
+            values.put(customer.getcCivic(), cusCivilStatus.getSelectedItem().toString());
+            values.put(customer.getcHeight(), cusHeight.getText().toString() + cusHeightScale.getSelectedItem().toString());
+            values.put(customer.getcWeight(), cusWeight.getText().toString() + cusWeightScale.getSelectedItem().toString());
+            if (isDisease) {
+                values.put(customer.getcAnyDisease(), cusDiseaseDiscrip.getText().toString());
+            }
+            values.put(customer.getcOccupation(), cusOccupation.getText().toString());
+            values.put(customer.getcAddress(), cusAddress.getText().toString());
+            values.put(customer.getcAddressLanLong(), "88.88888, 100.0000");
+            values.put(customer.getcContactHome(), cusHomeNo.getText().toString());
+            values.put(customer.getcContactMobile(), cusMobileNo.getText().toString());
+            values.put(customer.getcContactWork(), cusWorkNo.getText().toString());
+            values.put(customer.getcEmail(), cusEmail.getText().toString());
+
+            if (isSavedCustemrInfo) {
+                isUpdated = dbActivites.updateIntoDB(values, addedRowId, "CUSTOMER");
+            } else {
+                rowId = dbActivites.saveIntoDB(values, "CUSTOMER");
+                addedRowId = rowId;
+            }
+
+            return rowId;
+        }
+    }
+
+    private void clearFields() {
+        cusName.setText("");
+        cusNo.setText("");
+        cusNIC.setText("");
+        cusDOB.setText("");
+        cusHeight.setText("");
+        cusWeight.setText("");
+        cusDiseaseDiscrip.setText("");
+        cusOccupation.setText("");
+        cusAddress.setText("");
+        cusHomeNo.setText("");
+        cusMobileNo.setText("");
+        cusWorkNo.setText("");
+        cusEmail.setText("");
     }
 }
