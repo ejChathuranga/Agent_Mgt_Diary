@@ -9,7 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import genesip.com.ej.insuarance_agent_mgt_diary.appointment.Appointment_dashboard;
 import genesip.com.ej.insuarance_agent_mgt_diary.client.Client_reg_main;
+import genesip.com.ej.insuarance_agent_mgt_diary.payments.PayementDashboard;
 
 public class Agent_dashboard extends AppCompatActivity implements OnClickListener {
     private PreferencesStore prefStore;
@@ -17,7 +19,7 @@ public class Agent_dashboard extends AppCompatActivity implements OnClickListene
     private SharedPreferences.Editor editor;
 
 
-    private Button addNewClient, makeAppointment, todayPayments, staticalReport;
+    private Button addNewClient, makeAppointment, todayPayments, staticalReport, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,13 @@ public class Agent_dashboard extends AppCompatActivity implements OnClickListene
         makeAppointment = findViewById(R.id.btnNewAppointment);
         todayPayments = findViewById(R.id.btnShowToadyPayment);
         staticalReport = findViewById(R.id.btnShowStaticalReport);
+        logout = findViewById(R.id.btnLogout);
 
         addNewClient.setOnClickListener(this);
         makeAppointment.setOnClickListener(this);
         todayPayments.setOnClickListener(this);
         staticalReport.setOnClickListener(this);
+        logout.setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +51,24 @@ public class Agent_dashboard extends AppCompatActivity implements OnClickListene
                 startActivity(new Intent(Agent_dashboard.this, Client_reg_main.class));
                 break;
             }
+            case R.id.btnNewAppointment: {
+                startActivity(new Intent(Agent_dashboard.this, Appointment_dashboard.class));
+                break;
+            }
+            case R.id.btnShowToadyPayment: {
+                startActivity(new Intent(Agent_dashboard.this, PayementDashboard.class));
+                break;
+            }
+            case R.id.btnShowStaticalReport: {
+                startActivity(new Intent(Agent_dashboard.this, Client_reg_main.class));
+                break;
+            }
+
+            case R.id.btnLogout: {
+                startActivity(new Intent(Agent_dashboard.this, AgentLogin.class));
+                break;
+            }
+
         }
     }
 }
