@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="shows all appointments today"
+        android:layout_marginTop="10dp"
+        android:text="shows all appointments today as list"
         android:textSize="24sp" />
 
 </FrameLayout>

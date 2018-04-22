@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".report.Agent_report_dashboard">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="427dp"
+                app:srcCompat="@drawable/piechart_studytutorial"
+                tools:layout_editor_absoluteX="52dp"
+                tools:layout_editor_absoluteY="275dp" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="282dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/bar_graph_1" />
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

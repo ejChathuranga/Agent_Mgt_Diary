@@ -8,6 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="View all payment that need to pay today. It will shown as list view and include send message"
+        android:textSize="18sp" />
 
 </FrameLayout>

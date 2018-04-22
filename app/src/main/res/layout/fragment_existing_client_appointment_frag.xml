@@ -5,10 +5,152 @@
     tools:context="genesip.com.ej.insuarance_agent_mgt_diary.appointment.ExistingClientAppointment_frag">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Adding existing client apointment"
-        android:textSize="24sp" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="347dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="Schedule existing Customer's appointment"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/etCusNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Customer Number"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/etExtCusName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Customer Name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/etPolicyNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Policy Number"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/etExtApmntDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Appointment Date"
+                    android:inputType="date" />
+
+                <EditText
+                    android:id="@+id/etExtApmntTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Appointment Time"
+                    android:inputType="time" />
+
+                <EditText
+                    android:id="@+id/etExtApmntLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Appointment Location"
+                    android:inputType="textPersonName|time" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnExtApmntGetLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="get location" />
+
+                    <TextView
+                        android:id="@+id/tvExtApmntGetLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Location Lang Long" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etExtApmntNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="Note"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Reminde me before"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerExtApmntRemider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/ExtAppointmentReminder" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btnExtApmntSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="11dp"
+                    android:text="Add to schedule" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
